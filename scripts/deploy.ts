@@ -14,13 +14,15 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Jobz = await ethers.getContractFactory("Jobz");
+  const FreeBoard = await ethers.getContractFactory("FreeBoard");
   // TODO: Load from env
-  const jobz = await Jobz.deploy("0xdd2fd4581271e230360230f9337d5c0430bf44c0");
+  const freeBoard = await FreeBoard.deploy(
+    "0xdd2fd4581271e230360230f9337d5c0430bf44c0"
+  );
 
-  await jobz.deployed();
+  await freeBoard.deployed();
 
-  console.log("Jobz deployed to:", jobz.address);
+  console.log("FreeBoard deployed to:", freeBoard.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

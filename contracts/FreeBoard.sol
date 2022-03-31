@@ -3,10 +3,16 @@ pragma solidity ^0.8.0;
 import "./Company.sol";
 import "./Review.sol";
 
-contract Jobz {
+contract FreeBoard {
     address private trustedAddress;
+
     Company[] public companies;
+
     mapping(uint256 => Review[]) public reviews;
+
+    // companiesCount and reviewsCount act as ids
+    uint256 public companiesCount;
+    uint256 public reviewsCount;
 
     event NewReview(uint256 indexed companyId, uint256 indexed reviewId);
     event NewCompany(uint256 indexed companyId);
@@ -20,19 +26,19 @@ contract Jobz {
         uint256 rating,
         string memory reviewCid
     ) public {
-        require(companies.length > 0, "No companies found");
+        require(companiesCount > 0, "No companies found");
         require(companies[companyId].inserted, "Company not found");
-        uint256 reviewId = reviews[companyId].length;
 
         Review memory review = Review({
-            id: reviewId,
+            id: reviewsCount,
             from: msg.sender,
             rating: rating,
             reviewCid: reviewCid
         });
 
         reviews[companyId].push(review);
-        emit NewReview(companyId, reviewId);
+        emit NewReview(companyId, reviewsCount);
+        reviewsCount++;
     }
 
     function addCompany(
@@ -41,10 +47,9 @@ contract Jobz {
         string memory logoCid
     ) public {
         require(msg.sender == trustedAddress, "Not trusted address");
-        uint256 companyId = companies.length;
 
         Company memory company = Company({
-            id: companyId,
+            id: companiesCount,
             name: name,
             descriptionCid: descriptionCid,
             logoCid: logoCid,
@@ -52,7 +57,8 @@ contract Jobz {
         });
 
         companies.push(company);
-        emit NewCompany(companyId);
+        emit NewCompany(companiesCount);
+        companiesCount++;
     }
 
     function getReviews(uint256 companyId)
