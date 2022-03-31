@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
+const web3 = require("web3");
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -17,7 +18,7 @@ async function main() {
   const FreeBoard = await ethers.getContractFactory("FreeBoard");
   // TODO: Load from env
   const freeBoard = await FreeBoard.deploy(
-    "0xdd2fd4581271e230360230f9337d5c0430bf44c0"
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
   );
 
   await freeBoard.deployed();

@@ -24,7 +24,7 @@ contract FreeBoard {
     function addReview(
         uint256 companyId,
         uint256 rating,
-        string memory reviewCid
+        bytes32 reviewCid
     ) public {
         require(companiesCount > 0, "No companies found");
         require(companiesCount >= companyId, "Company not found");
@@ -42,9 +42,9 @@ contract FreeBoard {
     }
 
     function addCompany(
-        string memory name,
-        string memory descriptionCid,
-        string memory logoCid
+        bytes32 name,
+        bytes32 descriptionCid,
+        bytes32 logoCid
     ) public {
         require(msg.sender == trustedAddress, "Not trusted address");
 
@@ -52,8 +52,7 @@ contract FreeBoard {
             id: companiesCount,
             name: name,
             descriptionCid: descriptionCid,
-            logoCid: logoCid,
-            inserted: true
+            logoCid: logoCid
         });
 
         companies.push(company);
