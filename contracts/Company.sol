@@ -5,5 +5,4 @@ struct Company {
     string name;
     string descriptionCid;
     string logoCid;
-    bool inserted;
 }

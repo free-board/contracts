@@ -27,7 +27,7 @@ contract FreeBoard {
         string memory reviewCid
     ) public {
         require(companiesCount > 0, "No companies found");
-        require(companies[companyId].inserted, "Company not found");
+        require(companiesCount >= companyId, "Company not found");
 
         Review memory review = Review({
             id: reviewsCount,
