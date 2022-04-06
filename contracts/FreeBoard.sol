@@ -4,7 +4,7 @@ import "./Company.sol";
 import "./Review.sol";
 
 contract FreeBoard {
-    address private trustedAddress;
+    address payable public ownerAddress;
 
     Company[] public companies;
 
@@ -17,8 +17,12 @@ contract FreeBoard {
     event NewReview(uint256 indexed companyId, uint256 indexed reviewId);
     event NewCompany(uint256 indexed companyId);
 
-    constructor(address _trustedAddress) {
-        trustedAddress = _trustedAddress;
+    constructor(address _ownerAddress) {
+        ownerAddress = payable(_ownerAddress);
+    }
+
+    function withdraw() public {
+        ownerAddress.transfer(address(this).balance);
     }
 
     function addReview(
@@ -45,8 +49,8 @@ contract FreeBoard {
         bytes32 name,
         bytes32 descriptionCid,
         bytes32 logoCid
-    ) public {
-        require(msg.sender == trustedAddress, "Not trusted address");
+    ) public payable {
+        require(msg.value == 0.03 ether, "Provide 0.03 ETH");
 
         Company memory company = Company({
             id: companiesCount,
